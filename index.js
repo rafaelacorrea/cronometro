@@ -2,29 +2,35 @@ let seconds = 0;
 let interval = null;
 const timerEl = document.querySelector('h1');
 const timerContainer = document.getElementById('timer');
+const startBtn = document.getElementById('start');
+const pauseBtn = document.getElementById('pause');
+const resetBtn = document.getElementById('reset');
 
-document.getElementById('start').addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
   if (!interval) {
     interval = setInterval(() => {
       seconds++;
       updateDisplay();
     }, 1000);
     timerContainer.className = 'timer-container running';
+    updateButtonStates();
   }
 });
 
-document.getElementById('pause').addEventListener('click', () => {
+pauseBtn.addEventListener('click', () => {
   clearInterval(interval);
   interval = null;
   timerContainer.className = 'timer-container paused';
+  updateButtonStates();
 });
 
-document.getElementById('reset').addEventListener('click', () => {
+resetBtn.addEventListener('click', () => {
   clearInterval(interval);
   interval = null;
   seconds = 0;
   updateDisplay();
   timerContainer.className = 'timer-container stopped';
+  updateButtonStates();
 });
 
 function updateDisplay() {
@@ -37,3 +43,20 @@ function updateDisplay() {
 function pad(num) {
   return num.toString().padStart(2, '0');
 }
+
+function updateButtonStates() {
+  const isRunning = interval !== null;
+  const isAtZero = seconds === 0;
+  
+  // Start button: disabled when running
+  startBtn.disabled = isRunning;
+  
+  // Pause button: disabled when stopped or paused (not running)
+  pauseBtn.disabled = !isRunning;
+  
+  // Reset button: disabled when timer is at zero
+  resetBtn.disabled = isAtZero;
+}
+
+// Initialize button states on page load
+updateButtonStates();
