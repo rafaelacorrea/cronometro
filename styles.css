@@ -53,3 +53,11 @@ h1 {
 .controls button:hover {
   background: #0056b3;
 }
+
+#reset {
+  background: #dc3545;
+}
+
+#reset:hover {
+  background: #c82333;
+}
