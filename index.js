@@ -1,80 +1,62 @@
-class Cronometro {
-    constructor() {
-        this.seconds = 0;
-        this.minutes = 0;
-        this.hours = 0;
-        this.interval = null;
-        this.isRunning = false;
-        
-        this.display = document.getElementById('display');
-        this.startBtn = document.getElementById('startBtn');
-        this.pauseBtn = document.getElementById('pauseBtn');
-        this.resetBtn = document.getElementById('resetBtn');
-        
-        this.initEventListeners();
-    }
-    
-    initEventListeners() {
-        this.startBtn.addEventListener('click', () => this.start());
-        this.pauseBtn.addEventListener('click', () => this.pause());
-        this.resetBtn.addEventListener('click', () => this.reset());
-    }
-    
-    start() {
-        if (!this.isRunning) {
-            this.interval = setInterval(() => this.tick(), 1000);
-            this.isRunning = true;
-            this.startBtn.textContent = 'Rodando...';
-            this.startBtn.disabled = true;
-        }
-    }
-    
-    pause() {
-        if (this.isRunning) {
-            clearInterval(this.interval);
-            this.isRunning = false;
-            this.startBtn.textContent = 'Continuar';
-            this.startBtn.disabled = false;
-        }
-    }
-    
-    reset() {
-        clearInterval(this.interval);
-        this.isRunning = false;
-        this.seconds = 0;
-        this.minutes = 0;
-        this.hours = 0;
-        this.updateDisplay();
-        this.startBtn.textContent = 'Iniciar';
-        this.startBtn.disabled = false;
-    }
-    
-    tick() {
-        this.seconds++;
-        
-        if (this.seconds >= 60) {
-            this.seconds = 0;
-            this.minutes++;
-            
-            if (this.minutes >= 60) {
-                this.minutes = 0;
-                this.hours++;
-            }
-        }
-        
-        this.updateDisplay();
-    }
-    
-    updateDisplay() {
-        const formattedHours = this.hours.toString().padStart(2, '0');
-        const formattedMinutes = this.minutes.toString().padStart(2, '0');
-        const formattedSeconds = this.seconds.toString().padStart(2, '0');
-        
-        this.display.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-    }
+let seconds = 0;
+let interval = null;
+const timerEl = document.querySelector('h1');
+const timerContainer = document.getElementById('timer');
+const startBtn = document.getElementById('start');
+const pauseBtn = document.getElementById('pause');
+const resetBtn = document.getElementById('reset');
+
+startBtn.addEventListener('click', () => {
+  if (!interval) {
+    interval = setInterval(() => {
+      seconds++;
+      updateDisplay();
+    }, 1000);
+    timerContainer.className = 'timer-container running';
+    updateButtonStates();
+  }
+});
+
+pauseBtn.addEventListener('click', () => {
+  clearInterval(interval);
+  interval = null;
+  timerContainer.className = 'timer-container paused';
+  updateButtonStates();
+});
+
+resetBtn.addEventListener('click', () => {
+  clearInterval(interval);
+  interval = null;
+  seconds = 0;
+  updateDisplay();
+  timerContainer.className = 'timer-container stopped';
+  updateButtonStates();
+});
+
+function updateDisplay() {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  timerEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
 
-// Inicializar o cronômetro quando a página carregar
-document.addEventListener('DOMContentLoaded', () => {
-    new Cronometro();
-});
+function pad(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function updateButtonStates() {
+  const isRunning = interval !== null;
+  const isAtZero = seconds === 0;
+  
+  // Start button: disabled when running
+  startBtn.disabled = isRunning;
+  
+  // Pause button: disabled when stopped or paused (not running)
+  pauseBtn.disabled = !isRunning;
+  
+  // Reset button: disabled when timer is at zero
+  resetBtn.disabled = isAtZero;
+}
+
+// Initialize button states on page load
+updateButtonStates();

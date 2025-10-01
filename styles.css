@@ -1,128 +1,81 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
 }
 
-.container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+.timer-container {
+  text-align: center;
+  padding: 3rem;
+  border-radius: 15px;
+  transition: background 0.3s;
+  background: #fff;
+}
+
+.timer-container.stopped {
+  background: #e0e0e0;
+}
+
+.timer-container.running {
+  background: #d4edda;
+}
+
+.timer-container.paused {
+  background: #fff3cd;
 }
 
 h1 {
-    color: white;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
-.cronometro {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    padding: 30px;
-    margin: 20px 0;
+.controls button {
+  margin: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
 }
 
-.display {
-    font-size: 4rem;
-    font-weight: bold;
-    color: white;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-    font-family: 'Courier New', monospace;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+.controls button:hover {
+  background: #0056b3;
 }
 
-.buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
+.controls button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.btn {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    min-width: 120px;
+.controls button:disabled:hover {
+  background: #6c757d;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+#reset {
+  background: #dc3545;
 }
 
-.start {
-    background: linear-gradient(45deg, #4CAF50, #45a049);
-    color: white;
+#reset:hover {
+  background: #c82333;
 }
 
-.start:hover {
-    background: linear-gradient(45deg, #45a049, #4CAF50);
+#reset:disabled {
+  background: #6c757d;
 }
 
-.pause {
-    background: linear-gradient(45deg, #ff9800, #e68900);
-    color: white;
-}
-
-.pause:hover {
-    background: linear-gradient(45deg, #e68900, #ff9800);
-}
-
-.reset {
-    background: linear-gradient(45deg, #f44336, #d32f2f);
-    color: white;
-}
-
-.reset:hover {
-    background: linear-gradient(45deg, #d32f2f, #f44336);
-}
-
-@media (max-width: 768px) {
-    .container {
-        margin: 20px;
-        padding: 20px;
-    }
-    
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .display {
-        font-size: 2.5rem;
-        padding: 15px;
-    }
-    
-    .buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .btn {
-        width: 200px;
-    }
+#reset:disabled:hover {
+  background: #6c757d;
 }
